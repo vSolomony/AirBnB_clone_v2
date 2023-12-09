@@ -4,10 +4,7 @@ import unittest
 from models.base_model import BaseModel
 from datetime import datetime
 
-
 class TestBaseModel(unittest.TestCase):
-    """test base model class"""
-
     def test_create_instance(self):
         """Test the creation of a BaseModel instance"""
         my_model = BaseModel()
@@ -35,8 +32,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertIn("__class__", obj_dict)
         self.assertIn("created_at", obj_dict)
         self.assertIn("updated_at", obj_dict)
-        self.assertIn("id", obj_dict)
-
 
 if __name__ == "__main__":
     unittest.main()

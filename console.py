@@ -16,7 +16,6 @@ import shlex
 import json
 import re
 
-
 class HBNBCommand(cmd.Cmd):
     """Command interpreter class for hbnb project"""
 
@@ -32,7 +31,7 @@ class HBNBCommand(cmd.Cmd):
     ]
 
     def emptyline(self):
-        """Do nothing on empty input line"""
+        """Do nothing on an empty input line"""
         pass
 
     def do_EOF(self, line):
@@ -231,7 +230,6 @@ class HBNBCommand(cmd.Cmd):
                 print("** unknown command **")
         else:
             print("** unknown command **")
-
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()

@@ -16,6 +16,7 @@ import shlex
 import json
 import re
 
+
 class HBNBCommand(cmd.Cmd):
     """Command interpreter class for hbnb project"""
 
@@ -31,7 +32,7 @@ class HBNBCommand(cmd.Cmd):
     ]
 
     def emptyline(self):
-        """Do nothing on an empty input line"""
+        """Do nothing on empty input line"""
         pass
 
     def do_EOF(self, line):
@@ -51,17 +52,35 @@ class HBNBCommand(cmd.Cmd):
         """Help message for EOF command"""
         print("Exits the console using Ctrl+D or EOF")
 
-    def do_create(self, line):
+    def do_create(self, arg):
         """Creates a new instance of BaseModel, saves it, and prints the id"""
-        args = shlex.split(line)
+        args = shlex.split(arg)
         if len(args) == 0:
             print("** class name missing **")
             return
+
         class_name = args[0]
         if class_name not in self.allowed_classes:
             print("** class doesn't exist **")
             return
-        new_instance = globals()[class_name]()
+
+        args = args[1:]
+        params = {}
+        for param in args:
+            try:
+                key, value = param.split("=")
+                key = key.replace("_", " ")
+                if value.startswith('"') and value.endswith('"'):
+                    value = value[1:-1].replace('\\"', '"')
+                elif "." in value:
+                    value = float(value)
+                else:
+                    value = int(value)
+                params[key] = value
+            except ValueError:
+                print(f"Invalid parameter: {param}")
+
+        new_instance = globals()[class_name](**params)
         new_instance.save()
         print(new_instance.id)
 
@@ -230,6 +249,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** unknown command **")
         else:
             print("** unknown command **")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()

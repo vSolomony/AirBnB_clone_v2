@@ -6,7 +6,8 @@ Fabric script (based on 3-deploy_web_static.py) that deletes out-of-date archive
 from fabric.api import env, run, local
 from datetime import datetime
 from os.path import exists
-env.hosts = ['<IP web-01>', '<IP web-02>']  # Replace with your actual server IPs
+
+env.hosts = ["34.239.255.31", "100.25.155.253"]
 
 
 def do_clean(number=0):
@@ -17,16 +18,14 @@ def do_clean(number=0):
     if number < 1:
         number = 1
     try:
-        local_archives = local('ls -1t versions', capture=True).split('\n')
-        server_archives = run('ls -1t /data/web_static/releases').split('\n')
+        local_archives = local("ls -1t versions", capture=True).split("\n")
+        server_archives = run("ls -1t /data/web_static/releases").split("\n")
 
-        # Delete local archives
         for arch in local_archives[number:]:
-            local('rm versions/{}'.format(arch))
+            local("rm versions/{}".format(arch))
 
-        # Delete server archives
         for arch in server_archives[number:]:
-            run('rm -rf /data/web_static/releases/{}'.format(arch))
+            run("rm -rf /data/web_static/releases/{}".format(arch))
 
     except Exception as e:
         print(e)
